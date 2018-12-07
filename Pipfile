@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+
+[packages]
+varint = "*"
+"base58" = "*"
+netaddr = "*"
+six = "*"
+ipfsapi = "*"
+jsonlines = "*"
+"geoip2" = "*"
+tqdm = "*"
+gmplot = "*"
+ipykernel = "*"
+pandas = "*"
+plotly = "*"
+folium = "*"
+joblib = "*"
+
+[requires]
+python_version = "3.7"

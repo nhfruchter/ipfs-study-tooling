@@ -1,0 +1,5 @@
+Tools to replicate IPFS study.
+
+1. Run `measure.sh` to generate logs.
+2. Run `peer-analysis.py` to create time series data on known peers.
+3. Run `dht-analysis.py` to gather info on file hashes and analyze a 5% subset.
