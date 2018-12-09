@@ -1,10 +1,7 @@
 from datetime import datetime, date
-from multiaddr import Multiaddr
-
-# Optional requirement for progress bars.
-from tqdm import tqdm
-
 import os
+from multiaddr import Multiaddr
+from tqdm import tqdm
 
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
@@ -57,7 +54,7 @@ class OpenPeers(LogParser):
 		self.records = [r.split("\n") for r in self.records if len(r) > 2]
 		self.records = [r for r in self.records if len(r) > 1]	
 		
-		for doc in self.records:
+		for doc in tqdm(self.records):
 			_ts = doc.pop(0) 
 			doc.pop(0)
 			_ts = int(_ts.replace(self.prefix, "").strip())
@@ -84,8 +81,10 @@ class OpenPeers(LogParser):
 			
 		print("Exported to {name}".format(name=name))	
 			
+				
 		
 class Bitswap(LogParser):		
+	# TODO
 	def __init__(self, filename):
 		super(Bitswap, self).__init__(filename)
 		self.output = []
@@ -101,7 +100,7 @@ class Bitswap(LogParser):
 		self.records = [r.split("\n") for r in self.records if len(r) > 2]
 		self.records = [r for r in self.records if len(r) > 1]	
 		
-		for r in self.records:
+		for r in tqdm(self.records):
 			_ts = r.pop(0) 
 			r.pop(0)
 			_ts = int(_ts.replace(self.prefix, "").strip())
@@ -121,12 +120,12 @@ class Bitswap(LogParser):
 				'ts': _ts,
 				'wantlist': [line.strip() for line in r[i_wantlist+1:i_partners]],
 				'partners': [line.strip() for line in r[i_partners+1:]],
-				'brecv': r[brecv].split(": ")[1],
-				'bsent': r[bsent].split(": ")[1],
-				'recv': r[recv].split(": ")[1],
-				'sent': r[sent].split(": ")[1],
-				'bdup': r[bdup].split(": ")[1],
-				'dup': r[dup].split(": ")[1]
+				'brecv': r[i_brecv].split(": ")[1],
+				'bsent': r[i_bsent].split(": ")[1],
+				'recv': r[i_recv].split(": ")[1],
+				'sent': r[i_sent].split(": ")[1],
+				'bdup': r[i_bdup].split(": ")[1],
+				'dup': r[i_dup].split(": ")[1]
 			}
 			self.output.append(this)
 			
@@ -147,7 +146,7 @@ class KnownPeers(LogParser):
 			output = {}
 			this = []
 			for line in l:
-				if line.startswith("Q"):
+				if line.startswith("Q") or "(" in line:
 					if len(this):
 						peer = this[0].split(" ")[0]
 						output[peer] = this[1:]
