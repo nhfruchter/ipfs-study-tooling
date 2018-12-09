@@ -102,7 +102,7 @@ def make_ipmap(peers):
 	for obj in ipinfo_results:
 		_asn = obj.get('org')
 		if _asn:
-			_asn = asn.split(" ")
+			_asn = _asn.split(" ")
 			asn = _asn[0].replace("AS", "")
 			aso = " ".join(_asn[1:])		
 		else:
